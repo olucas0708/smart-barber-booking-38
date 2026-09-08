@@ -65,9 +65,9 @@ function Perfil() {
       if (nova.length < 8) throw new Error("A nova senha precisa de pelo menos 8 caracteres");
       const { error } = await supabase.auth.updateUser({
         password: nova,
-        // @ts-expect-error a senha atual é exigida pelo backend em trocas com sessão ativa
+        // a senha atual é exigida pelo backend em trocas com sessão ativa
         current_password: String(form.get("atual")),
-      });
+      } as Parameters<typeof supabase.auth.updateUser>[0]);
       if (error) throw error;
     },
     onSuccess: () => toast.success("Senha alterada"),
