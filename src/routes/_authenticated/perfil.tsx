@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_authenticated/perfil")({
       { property: "og:description", content: "Atualize seus dados, foto e senha." },
     ],
   }),
-  component: Perfil;
+  component: Perfil,
 });
 
 function Perfil() {
