@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import { useAuth } from "@/lib/auth";
 import { dataCurta, hora, isoData, mensagemErro, moeda, STATUS_LABEL } from "@/lib/barbearia";
 
@@ -80,7 +81,7 @@ function AreaBarbeiro() {
   }, [queryClient]);
 
   const atualizar = useMutation({
-    mutationFn: async ({ id, patch }: { id: string; patch: Record<string, unknown> }) => {
+    mutationFn: async ({ id, patch }: { id: string; patch: Database["public"]["Tables"]["agendamentos"]["Update"] }) => {
       const { error } = await supabase.from("agendamentos").update(patch).eq("id", id);
       if (error) throw error;
     },
@@ -178,10 +179,10 @@ function AreaBarbeiro() {
                       <p className="font-display text-2xl leading-none">
                         {hora(a.inicio)} <span className="text-sm text-muted-foreground">– {hora(a.fim)}</span>
                       </p>
-                      <p className="mt-1 font-semibold">{a.profiles?.nome}</p>
+                      <p className="mt-1 font-semibold">{a.cliente?.nome}</p>
                       <p className="text-sm text-muted-foreground">
                         {a.servicos?.nome} · {moeda(a.preco)}
-                        {a.profiles?.telefone ? ` · ${a.profiles.telefone}` : ""}
+                        {a.cliente?.telefone ? ` · ${a.cliente.telefone}` : ""}
                       </p>
                       {a.observacoes && <p className="mt-1 text-sm italic">“{a.observacoes}”</p>}
                     </div>

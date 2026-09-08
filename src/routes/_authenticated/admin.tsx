@@ -52,12 +52,17 @@ function Admin() {
       const { data, error } = await supabase
         .from("agendamentos")
         .select(
-          "id, inicio, status, preco, pagamento_status, barbeiros(nome), servicos(nome), profiles!agendamentos_cliente_id_fkey(nome)",
+          "id, cliente_id, inicio, status, preco, pagamento_status, barbeiros(nome), servicos(nome)",
         )
         .order("inicio", { ascending: false })
         .limit(500);
       if (error) throw error;
-      return data;
+      const ids = [...new Set((data ?? []).map((a) => a.cliente_id))];
+      const { data: pessoas } = ids.length
+        ? await supabase.from("profiles").select("id, nome").in("id", ids)
+        : { data: [] };
+      const mapa = new Map((pessoas ?? []).map((c) => [c.id, c.nome]));
+      return (data ?? []).map((a) => ({ ...a, clienteNome: mapa.get(a.cliente_id) ?? "Cliente" }));
     },
   });
 
@@ -267,7 +272,7 @@ function Admin() {
                     ...doDia.map((a) => [
                       dataCurta(a.inicio),
                       hora(a.inicio),
-                      a.profiles?.nome ?? "",
+                      a.clienteNome,
                       a.barbeiros?.nome ?? "",
                       a.servicos?.nome ?? "",
                       STATUS_LABEL[a.status] ?? a.status,
@@ -298,7 +303,7 @@ function Admin() {
                   {doDia.map((a) => (
                     <tr key={a.id} className="border-t border-border">
                       <td className="p-3 font-medium">{hora(a.inicio)}</td>
-                      <td className="p-3">{a.profiles?.nome}</td>
+                      <td className="p-3">{a.clienteNome}</td>
                       <td className="p-3">{a.barbeiros?.nome}</td>
                       <td className="p-3">{a.servicos?.nome}</td>
                       <td className="p-3">
