@@ -23,6 +23,8 @@ export type Database = {
           id: string
           inicio: string
           observacoes: string | null
+          pagamento_metodo: string | null
+          pagamento_status: Database["public"]["Enums"]["status_pagamento"]
           preco: number
           servico_id: string
           status: Database["public"]["Enums"]["status_agendamento"]
@@ -35,6 +37,8 @@ export type Database = {
           id?: string
           inicio: string
           observacoes?: string | null
+          pagamento_metodo?: string | null
+          pagamento_status?: Database["public"]["Enums"]["status_pagamento"]
           preco?: number
           servico_id: string
           status?: Database["public"]["Enums"]["status_agendamento"]
@@ -47,6 +51,8 @@ export type Database = {
           id?: string
           inicio?: string
           observacoes?: string | null
+          pagamento_metodo?: string | null
+          pagamento_status?: Database["public"]["Enums"]["status_pagamento"]
           preco?: number
           servico_id?: string
           status?: Database["public"]["Enums"]["status_agendamento"]
@@ -282,6 +288,7 @@ export type Database = {
           consentimento_lgpd: boolean
           criado_em: string
           email: string | null
+          foto_url: string | null
           id: string
           nome: string
           telefone: string | null
@@ -291,6 +298,7 @@ export type Database = {
           consentimento_lgpd?: boolean
           criado_em?: string
           email?: string | null
+          foto_url?: string | null
           id: string
           nome?: string
           telefone?: string | null
@@ -300,6 +308,7 @@ export type Database = {
           consentimento_lgpd?: boolean
           criado_em?: string
           email?: string | null
+          foto_url?: string | null
           id?: string
           nome?: string
           telefone?: string | null
@@ -387,6 +396,7 @@ export type Database = {
         | "concluido"
         | "cancelado"
         | "nao_compareceu"
+      status_pagamento: "pagar_no_local" | "pago" | "reembolsado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -522,6 +532,7 @@ export const Constants = {
         "cancelado",
         "nao_compareceu",
       ],
+      status_pagamento: ["pagar_no_local", "pago", "reembolsado"],
     },
   },
 } as const
