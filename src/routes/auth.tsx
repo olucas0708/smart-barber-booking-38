@@ -57,7 +57,7 @@ function Autenticacao() {
       password: String(dados.get("senha")),
     });
     setCarregando(false);
-    if (error) return toast.error("Não foi possível entrar", { description: mensagemErro(error) });
+    if (error) { toast.error("Não foi possível entrar", { description: mensagemErro(error) }); return; }
     toast.success("Bem-vindo de volta!");
     navigate({ to: "/agendar" });
   }
@@ -74,7 +74,7 @@ function Autenticacao() {
     };
     const check = esquemaCadastro.safeParse(bruto);
     if (!check.success) {
-      return toast.error("Confira os dados", { description: check.error.issues[0]?.message });
+      { toast.error("Confira os dados", { description: check.error.issues[0]?.message }); return; }
     }
     setCarregando(true);
     const { data, error } = await supabase.auth.signUp({
@@ -86,11 +86,11 @@ function Autenticacao() {
       },
     });
     setCarregando(false);
-    if (error) return toast.error("Não foi possível criar a conta", { description: mensagemErro(error) });
+    if (error) { toast.error("Não foi possível criar a conta", { description: mensagemErro(error) }); return; }
     if (!data.session) {
-      return toast.success("Confirme seu e-mail", {
+      { toast.success("Confirme seu e-mail", {
         description: "Enviamos um link de confirmação. Depois de confirmar, você já pode entrar.",
-      });
+      }); return; }
     }
     toast.success("Conta criada!");
     navigate({ to: "/agendar" });
@@ -104,7 +104,7 @@ function Autenticacao() {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     setCarregando(false);
-    if (error) return toast.error("Não foi possível enviar", { description: mensagemErro(error) });
+    if (error) { toast.error("Não foi possível enviar", { description: mensagemErro(error) }); return; }
     toast.success("Verifique seu e-mail para criar uma nova senha.");
     setModoRecuperar(false);
   }
@@ -113,7 +113,7 @@ function Autenticacao() {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
     });
-    if (result.error) return toast.error("Falha no login com Google");
+    if (result.error) { toast.error("Falha no login com Google"); return; }
     if (result.redirected) return;
     navigate({ to: "/agendar" });
   }

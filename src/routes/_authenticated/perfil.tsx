@@ -76,9 +76,9 @@ function Perfil() {
 
   async function enviarFoto(arquivo: File) {
     if (!userId) return;
-    if (arquivo.size > 3 * 1024 * 1024) return toast.error("A imagem deve ter no máximo 3 MB");
+    if (arquivo.size > 3 * 1024 * 1024) { toast.error("A imagem deve ter no máximo 3 MB"); return; }
     if (!["image/jpeg", "image/png", "image/webp"].includes(arquivo.type))
-      return toast.error("Use uma imagem JPG, PNG ou WEBP");
+      { toast.error("Use uma imagem JPG, PNG ou WEBP"); return; }
     setEnviando(true);
     const extensao = arquivo.type === "image/png" ? "png" : arquivo.type === "image/webp" ? "webp" : "jpg";
     const caminho = `perfis/${userId}/foto.${extensao}`;
@@ -87,11 +87,11 @@ function Perfil() {
       .upload(caminho, arquivo, { upsert: true, contentType: arquivo.type });
     if (erroUpload) {
       setEnviando(false);
-      return toast.error("Falha ao enviar a foto", { description: mensagemErro(erroUpload) });
+      { toast.error("Falha ao enviar a foto", { description: mensagemErro(erroUpload) }); return; }
     }
     const { error } = await supabase.from("profiles").update({ foto_url: caminho }).eq("id", userId);
     setEnviando(false);
-    if (error) return toast.error("Falha ao salvar a foto", { description: mensagemErro(error) });
+    if (error) { toast.error("Falha ao salvar a foto", { description: mensagemErro(error) }); return; }
     toast.success("Foto atualizada");
     queryClient.invalidateQueries();
   }

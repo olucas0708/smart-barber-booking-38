@@ -29,12 +29,12 @@ function NovaSenha() {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const senha = String(form.get("senha"));
-    if (senha.length < 8) return toast.error("A senha precisa de pelo menos 8 caracteres");
-    if (senha !== String(form.get("confirmar"))) return toast.error("As senhas não são iguais");
+    if (senha.length < 8) { toast.error("A senha precisa de pelo menos 8 caracteres"); return; }
+    if (senha !== String(form.get("confirmar"))) { toast.error("As senhas não são iguais"); return; }
     setCarregando(true);
     const { error } = await supabase.auth.updateUser({ password: senha });
     setCarregando(false);
-    if (error) return toast.error("Não foi possível salvar", { description: mensagemErro(error) });
+    if (error) { toast.error("Não foi possível salvar", { description: mensagemErro(error) }); return; }
     toast.success("Senha atualizada!");
     navigate({ to: "/agendar", replace: true });
   }
