@@ -14,16 +14,379 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agendamentos: {
+        Row: {
+          barbeiro_id: string
+          cliente_id: string
+          criado_em: string
+          fim: string
+          id: string
+          inicio: string
+          observacoes: string | null
+          preco: number
+          servico_id: string
+          status: Database["public"]["Enums"]["status_agendamento"]
+        }
+        Insert: {
+          barbeiro_id: string
+          cliente_id: string
+          criado_em?: string
+          fim: string
+          id?: string
+          inicio: string
+          observacoes?: string | null
+          preco?: number
+          servico_id: string
+          status?: Database["public"]["Enums"]["status_agendamento"]
+        }
+        Update: {
+          barbeiro_id?: string
+          cliente_id?: string
+          criado_em?: string
+          fim?: string
+          id?: string
+          inicio?: string
+          observacoes?: string | null
+          preco?: number
+          servico_id?: string
+          status?: Database["public"]["Enums"]["status_agendamento"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agendamentos_barbeiro_id_fkey"
+            columns: ["barbeiro_id"]
+            isOneToOne: false
+            referencedRelation: "barbeiros"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agendamentos_servico_id_fkey"
+            columns: ["servico_id"]
+            isOneToOne: false
+            referencedRelation: "servicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_logs: {
+        Row: {
+          acao: string
+          actor_id: string | null
+          criado_em: string
+          detalhes: Json | null
+          entidade: string
+          entidade_id: string | null
+          id: string
+        }
+        Insert: {
+          acao: string
+          actor_id?: string | null
+          criado_em?: string
+          detalhes?: Json | null
+          entidade: string
+          entidade_id?: string | null
+          id?: string
+        }
+        Update: {
+          acao?: string
+          actor_id?: string | null
+          criado_em?: string
+          detalhes?: Json | null
+          entidade?: string
+          entidade_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      avaliacoes: {
+        Row: {
+          agendamento_id: string
+          barbeiro_id: string
+          cliente_id: string
+          comentario: string | null
+          criado_em: string
+          id: string
+          nota: number
+        }
+        Insert: {
+          agendamento_id: string
+          barbeiro_id: string
+          cliente_id: string
+          comentario?: string | null
+          criado_em?: string
+          id?: string
+          nota: number
+        }
+        Update: {
+          agendamento_id?: string
+          barbeiro_id?: string
+          cliente_id?: string
+          comentario?: string | null
+          criado_em?: string
+          id?: string
+          nota?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "avaliacoes_agendamento_id_fkey"
+            columns: ["agendamento_id"]
+            isOneToOne: true
+            referencedRelation: "agendamentos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "avaliacoes_barbeiro_id_fkey"
+            columns: ["barbeiro_id"]
+            isOneToOne: false
+            referencedRelation: "barbeiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      barbeiros: {
+        Row: {
+          ativo: boolean
+          criado_em: string
+          especialidades: string[]
+          foto_url: string | null
+          id: string
+          nome: string
+          profile_id: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          criado_em?: string
+          especialidades?: string[]
+          foto_url?: string | null
+          id?: string
+          nome: string
+          profile_id?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          criado_em?: string
+          especialidades?: string[]
+          foto_url?: string | null
+          id?: string
+          nome?: string
+          profile_id?: string | null
+        }
+        Relationships: []
+      }
+      bloqueios: {
+        Row: {
+          barbeiro_id: string
+          criado_em: string
+          data: string
+          hora_fim: string
+          hora_inicio: string
+          id: string
+          motivo: string | null
+        }
+        Insert: {
+          barbeiro_id: string
+          criado_em?: string
+          data: string
+          hora_fim: string
+          hora_inicio: string
+          id?: string
+          motivo?: string | null
+        }
+        Update: {
+          barbeiro_id?: string
+          criado_em?: string
+          data?: string
+          hora_fim?: string
+          hora_inicio?: string
+          id?: string
+          motivo?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bloqueios_barbeiro_id_fkey"
+            columns: ["barbeiro_id"]
+            isOneToOne: false
+            referencedRelation: "barbeiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      configuracoes: {
+        Row: {
+          antecedencia_min_cancelamento_horas: number
+          atualizado_em: string
+          dias_funcionamento: number[]
+          hora_abertura: string
+          hora_fechamento: string
+          id: boolean
+          intervalo_slots_minutos: number
+          nome: string
+        }
+        Insert: {
+          antecedencia_min_cancelamento_horas?: number
+          atualizado_em?: string
+          dias_funcionamento?: number[]
+          hora_abertura?: string
+          hora_fechamento?: string
+          id?: boolean
+          intervalo_slots_minutos?: number
+          nome?: string
+        }
+        Update: {
+          antecedencia_min_cancelamento_horas?: number
+          atualizado_em?: string
+          dias_funcionamento?: number[]
+          hora_abertura?: string
+          hora_fechamento?: string
+          id?: boolean
+          intervalo_slots_minutos?: number
+          nome?: string
+        }
+        Relationships: []
+      }
+      horarios_trabalho: {
+        Row: {
+          barbeiro_id: string
+          dia_semana: number
+          hora_fim: string
+          hora_inicio: string
+          id: string
+        }
+        Insert: {
+          barbeiro_id: string
+          dia_semana: number
+          hora_fim: string
+          hora_inicio: string
+          id?: string
+        }
+        Update: {
+          barbeiro_id?: string
+          dia_semana?: number
+          hora_fim?: string
+          hora_inicio?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "horarios_trabalho_barbeiro_id_fkey"
+            columns: ["barbeiro_id"]
+            isOneToOne: false
+            referencedRelation: "barbeiros"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          bloqueado: boolean
+          consentimento_lgpd: boolean
+          criado_em: string
+          email: string | null
+          id: string
+          nome: string
+          telefone: string | null
+        }
+        Insert: {
+          bloqueado?: boolean
+          consentimento_lgpd?: boolean
+          criado_em?: string
+          email?: string | null
+          id: string
+          nome?: string
+          telefone?: string | null
+        }
+        Update: {
+          bloqueado?: boolean
+          consentimento_lgpd?: boolean
+          criado_em?: string
+          email?: string | null
+          id?: string
+          nome?: string
+          telefone?: string | null
+        }
+        Relationships: []
+      }
+      servicos: {
+        Row: {
+          ativo: boolean
+          categoria: string | null
+          criado_em: string
+          descricao: string | null
+          duracao_minutos: number
+          id: string
+          nome: string
+          preco: number
+        }
+        Insert: {
+          ativo?: boolean
+          categoria?: string | null
+          criado_em?: string
+          descricao?: string | null
+          duracao_minutos: number
+          id?: string
+          nome: string
+          preco: number
+        }
+        Update: {
+          ativo?: boolean
+          categoria?: string | null
+          criado_em?: string
+          descricao?: string | null
+          duracao_minutos?: number
+          id?: string
+          nome?: string
+          preco?: number
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          criado_em: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          criado_em?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          criado_em?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      atende_cliente: { Args: { _cliente: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      horarios_disponiveis: {
+        Args: { p_barbeiro: string; p_data: string; p_duracao: number }
+        Returns: string[]
+      }
+      meu_barbeiro_id: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "cliente" | "barbeiro" | "admin"
+      status_agendamento:
+        | "pendente"
+        | "confirmado"
+        | "concluido"
+        | "cancelado"
+        | "nao_compareceu"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +513,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["cliente", "barbeiro", "admin"],
+      status_agendamento: [
+        "pendente",
+        "confirmado",
+        "concluido",
+        "cancelado",
+        "nao_compareceu",
+      ],
+    },
   },
 } as const
