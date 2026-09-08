@@ -37,15 +37,18 @@ function AreaBarbeiro() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("agendamentos")
-        .select(
-          "id, inicio, fim, status, preco, pagamento_status, observacoes, servicos(nome), profiles!agendamentos_cliente_id_fkey(nome, telefone)",
-        )
+        .select("id, cliente_id, inicio, fim, status, preco, pagamento_status, observacoes, servicos(nome)")
         .eq("barbeiro_id", barbeiroId!)
         .gte("inicio", `${dia}T00:00:00`)
         .lte("inicio", `${dia}T23:59:59`)
         .order("inicio");
       if (error) throw error;
-      return data;
+      const ids = [...new Set((data ?? []).map((a) => a.cliente_id))];
+      const { data: clientes } = ids.length
+        ? await supabase.from("profiles").select("id, nome, telefone").in("id", ids)
+        : { data: [] };
+      const mapa = new Map((clientes ?? []).map((c) => [c.id, c]));
+      return (data ?? []).map((a) => ({ ...a, cliente: mapa.get(a.cliente_id) ?? null }));
     },
   });
 
