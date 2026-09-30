@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Download, Plus, Star } from "lucide-react";
 import { Header } from "@/components/Header";
+import { AdminComercial } from "@/components/AdminComercial";
 import { Estrelas } from "@/components/Estrelas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -242,6 +243,8 @@ function Admin() {
             </Card>
           ))}
         </div>
+
+        <AdminComercial />
 
         <Tabs defaultValue="agenda" className="mt-6">
           <TabsList className="flex w-full flex-wrap">
