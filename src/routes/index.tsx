@@ -68,7 +68,7 @@ function Inicio() {
     queryKey: ["equipe-publica"],
     queryFn: async () => {
       const [{ data: barbeiros, error }, { data: avaliacoes }] = await Promise.all([
-        supabase.from("barbeiros").select("id, nome, foto_url, especialidades").eq("ativo", true).order("nome"),
+        supabase.from("barbeiros").select("id, nome, foto_url, especialidades, cargo, bio, ordem").eq("ativo", true).order("ordem").order("nome"),
         supabase.from("avaliacoes").select("barbeiro_id, nota"),
       ]);
       if (error) throw error;
@@ -242,6 +242,9 @@ function Inicio() {
                 atendimento.
               </p>
               <Button asChild variant="outline" className="mt-7">
+                <Link to="/promocoes">Ver promoções</Link>
+              </Button>
+              <Button asChild variant="outline" className="mt-3 sm:ml-2 lg:ml-0">
                 <Link to={bookingHref}>Escolher barbeiro <ArrowRight aria-hidden="true" /></Link>
               </Button>
             </div>
@@ -255,7 +258,7 @@ function Inicio() {
                       <div className="min-w-0">
                         <h3 className="truncate text-2xl leading-none">{b.nome}</h3>
                         <p className="mt-2 truncate text-xs text-muted-foreground">
-                          {b.especialidades?.join(" · ") || "Barbeiro"}
+                          {b.cargo || "Barbeiro"} · {b.especialidades?.join(" · ") || "Barbeiro"}
                         </p>
                         <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                           {b.media ? (
