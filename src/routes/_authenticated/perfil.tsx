@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Upload } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
+import { ProgramaFidelidade } from "@/components/ProgramaFidelidade";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -101,6 +102,8 @@ function Perfil() {
       <Header />
       <main className="mx-auto max-w-2xl space-y-5 px-4 py-6 sm:px-6">
         <h1 className="text-3xl sm:text-4xl">MINHA CONTA</h1>
+
+        <ProgramaFidelidade />
 
         <Card>
           <CardHeader>
