@@ -12,6 +12,7 @@ import {
   Star,
 } from "lucide-react";
 import { Header } from "@/components/Header";
+import { ExperienciaBarbearia } from "@/components/ExperienciaBarbearia";
 import { Estrelas } from "@/components/Estrelas";
 import { Foto } from "@/components/Foto";
 import { Button } from "@/components/ui/button";
@@ -302,6 +303,8 @@ function Inicio() {
             </div>
           </section>
         )}
+
+        <ExperienciaBarbearia />
 
         <section id="localizacao" className="border-t border-border/70">
           <div className="mx-auto grid max-w-7xl gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[1.1fr_.9fr] lg:py-28">
