@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   CalendarCheck,
-  Check,
   Clock3,
   Instagram,
   MapPin,
