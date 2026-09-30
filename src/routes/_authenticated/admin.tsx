@@ -30,9 +30,9 @@ import {
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Painel do administrador — Navalha & Ouro" },
+      { title: "Painel do administrador — Romario Barber Shop" },
       { name: "description", content: "Indicadores, serviços, equipe e agenda geral da barbearia." },
-      { property: "og:title", content: "Painel do administrador — Navalha & Ouro" },
+      { property: "og:title", content: "Painel do administrador — Romario Barber Shop" },
       { property: "og:description", content: "Indicadores, serviços, equipe e agenda geral." },
     ],
   }),
