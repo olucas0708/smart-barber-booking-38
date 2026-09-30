@@ -1,7 +1,7 @@
 {
-  "name": "Navalha & Ouro — Barbearia",
-  "short_name": "Navalha & Ouro",
-  "description": "Agende seu corte na Navalha & Ouro em poucos toques.",
+  "name": "Romario Barber Shop — Barbearia",
+  "short_name": "Romario Barber Shop",
+  "description": "Agende seu corte na Romario Barber Shop em poucos toques.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
