@@ -56,7 +56,7 @@ function Inicio() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("servicos")
-        .select("id, nome, descricao, duracao_minutos, preco, categoria")
+        .select("id, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir")
         .eq("ativo", true)
         .order("preco");
       if (error) throw error;
@@ -211,7 +211,7 @@ function Inicio() {
                             )}
                             <h3 className="text-2xl leading-none">{s.nome}</h3>
                           </div>
-                          <span className="whitespace-nowrap text-sm font-semibold text-primary">{moeda(s.preco)}</span>
+                          <span className="whitespace-nowrap text-sm font-semibold text-primary">{s.preco_a_partir ? `A partir de: ${moeda(s.preco)}` : moeda(s.preco)}</span>
                         </div>
                         <p className="text-sm leading-6 text-muted-foreground">{s.descricao}</p>
                         <div className="mt-auto flex items-center gap-2 pt-2 text-xs text-muted-foreground">
