@@ -17,10 +17,10 @@ import { mensagemErro, textoSeguro } from "@/lib/barbearia";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Entrar — Navalha & Ouro" },
+      { title: "Entrar — Romario Barber Shop" },
       { name: "description", content: "Acesse sua conta para agendar, remarcar ou avaliar atendimentos." },
-      { property: "og:title", content: "Entrar — Navalha & Ouro" },
-      { property: "og:description", content: "Acesse sua conta da barbearia Navalha & Ouro." },
+      { property: "og:title", content: "Entrar — Romario Barber Shop" },
+      { property: "og:description", content: "Acesse sua conta da barbearia Romario Barber Shop." },
     ],
   }),
   component: Autenticacao,

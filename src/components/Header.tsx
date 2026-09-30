@@ -60,7 +60,7 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild><Link to="/agendar">Agendar horário</Link></DropdownMenuItem>
                   <DropdownMenuItem asChild><Link to="/meus-agendamentos">Meus horários</Link></DropdownMenuItem>
-                  <DropdownMenuItem asChild><Link to="/perfil">Meu perfil</Link></DropdownMenuItem>
+                  <DropdownMenuItem asChild><Link to="/perfil">Meu perfil · Clube Romario</Link></DropdownMenuItem>
                   {isBarbeiro && <DropdownMenuItem asChild><Link to="/barbeiro">Minha agenda</Link></DropdownMenuItem>}
                   {isAdmin && <DropdownMenuItem asChild><Link to="/admin"><Shield aria-hidden="true" /> Painel do dono</Link></DropdownMenuItem>}
                   <DropdownMenuSeparator />
