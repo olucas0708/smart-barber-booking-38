@@ -6,6 +6,7 @@ import { Upload } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
 import { ProgramaFidelidade } from "@/components/ProgramaFidelidade";
+import { ClientePlus } from "@/components/ClientePlus";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -104,6 +105,7 @@ function Perfil() {
         <h1 className="text-3xl sm:text-4xl">MINHA CONTA</h1>
 
         <ProgramaFidelidade />
+        <ClientePlus />
 
         <Card>
           <CardHeader>
