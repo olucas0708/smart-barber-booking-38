@@ -28,6 +28,7 @@ export type Database = {
           preco: number
           servico_id: string
           status: Database["public"]["Enums"]["status_agendamento"]
+          beneficio_fidelidade: boolean
         }
         Insert: {
           barbeiro_id: string
@@ -42,6 +43,7 @@ export type Database = {
           preco?: number
           servico_id: string
           status?: Database["public"]["Enums"]["status_agendamento"]
+          beneficio_fidelidade?: boolean
         }
         Update: {
           barbeiro_id?: string
@@ -158,6 +160,9 @@ export type Database = {
           id: string
           nome: string
           profile_id: string | null
+          cargo: string
+          bio: string | null
+          ordem: number
         }
         Insert: {
           ativo?: boolean
@@ -167,6 +172,9 @@ export type Database = {
           id?: string
           nome: string
           profile_id?: string | null
+          cargo?: string
+          bio?: string | null
+          ordem?: number
         }
         Update: {
           ativo?: boolean
@@ -325,6 +333,7 @@ export type Database = {
           id: string
           nome: string
           preco: number
+          preco_a_partir: boolean
         }
         Insert: {
           ativo?: boolean
@@ -345,6 +354,7 @@ export type Database = {
           id?: string
           nome?: string
           preco?: number
+          preco_a_partir?: boolean
         }
         Relationships: []
       }
