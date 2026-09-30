@@ -33,7 +33,7 @@ export const Route = createFileRoute("/_authenticated/meus-agendamentos")({
   component: MeusAgendamentos,
 });
 
-const CACHE = "barbearia-meus-agendamentos";
+const CACHE_PREFIX = "barbearia-meus-agendamentos:";
 
 type Item = {
   id: string;
@@ -48,10 +48,10 @@ type Item = {
   avaliacoes: { id: string }[];
 };
 
-function lerCache(): Item[] | undefined {
-  if (typeof window === "undefined") return undefined;
+function lerCache(userId: string | undefined): Item[] | undefined {
+  if (typeof window === "undefined" || !userId) return undefined;
   try {
-    const bruto = localStorage.getItem(CACHE);
+    const bruto = localStorage.getItem(CACHE_PREFIX + userId);
     return bruto ? (JSON.parse(bruto) as Item[]) : undefined;
   } catch {
     return undefined;
@@ -80,7 +80,7 @@ function MeusAgendamentos() {
   const consulta = useQuery({
     queryKey: ["meus-agendamentos", userId],
     enabled: !!userId,
-    initialData: lerCache(),
+    initialData: () => lerCache(userId),
     queryFn: async () => {
       const { data, error } = await supabase
         .from("agendamentos")
@@ -98,7 +98,7 @@ function MeusAgendamentos() {
   useEffect(() => {
     if (consulta.isSuccess && consulta.data && !consulta.isFetching) {
       try {
-        localStorage.setItem(CACHE, JSON.stringify(consulta.data));
+        if (userId) localStorage.setItem(CACHE_PREFIX + userId, JSON.stringify(consulta.data));
       } catch {
         /* armazenamento cheio: segue sem cache */
       }
