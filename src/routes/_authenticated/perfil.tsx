@@ -65,11 +65,14 @@ function Perfil() {
     mutationFn: async (form: FormData) => {
       const nova = String(form.get("nova"));
       if (nova.length < 8) throw new Error("A nova senha precisa de pelo menos 8 caracteres");
-      const { error } = await supabase.auth.updateUser({
-        password: nova,
-        // a senha atual é exigida pelo backend em trocas com sessão ativa
-        current_password: String(form.get("atual")),
-      } as Parameters<typeof supabase.auth.updateUser>[0]);
+      const atual = String(form.get("atual") ?? "");
+      const email = perfil?.email;
+      if (!email || !atual) throw new Error("Informe a senha atual");
+
+      const { error: reauthError } = await supabase.auth.signInWithPassword({ email, password: atual });
+      if (reauthError) throw new Error("A senha atual está incorreta");
+
+      const { error } = await supabase.auth.updateUser({ password: nova });
       if (error) throw error;
     },
     onSuccess: () => toast.success("Senha alterada"),
@@ -173,7 +176,6 @@ function Perfil() {
               onSubmit={(e) => {
                 e.preventDefault();
                 trocarSenha.mutate(new FormData(e.currentTarget));
-                e.currentTarget.reset();
               }}
             >
               <div className="space-y-2">
