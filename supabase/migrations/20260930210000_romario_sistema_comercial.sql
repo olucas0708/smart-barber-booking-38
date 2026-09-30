@@ -148,10 +148,7 @@ left join public.agendamentos a on a.cliente_id=p.id
 group by p.id, p.nome, p.telefone;
 
 grant select on public.clientes_reativacao to authenticated;
-grant select on public.clientes_reativacao to authenticated;
 grant select on public.metricas_servicos to authenticated;
-create policy if not exists "metricas_servicos_admin" on public.metricas_servicos
-  for select to authenticated using (public.has_role(auth.uid(),'admin'));
 
 
 -- Horário oficial de atendimento da Romario Barber Shop.
