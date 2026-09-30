@@ -28,9 +28,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/agendar")({
   head: () => ({
     meta: [
-      { title: "Agendar horário — Navalha & Ouro" },
+      { title: "Agendar horário — Romario Barber Shop" },
       { name: "description", content: "Escolha serviço, barbeiro e horário disponível em tempo real." },
-      { property: "og:title", content: "Agendar horário — Navalha & Ouro" },
+      { property: "og:title", content: "Agendar horário — Romario Barber Shop" },
       { property: "og:description", content: "Escolha serviço, barbeiro e horário em poucos toques." },
     ],
   }),

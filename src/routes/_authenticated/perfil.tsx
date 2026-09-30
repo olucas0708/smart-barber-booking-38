@@ -16,9 +16,9 @@ import { mensagemErro, textoSeguro } from "@/lib/barbearia";
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({
     meta: [
-      { title: "Minha conta — Navalha & Ouro" },
+      { title: "Minha conta — Romario Barber Shop" },
       { name: "description", content: "Atualize seus dados, foto e senha da conta da barbearia." },
-      { property: "og:title", content: "Minha conta — Navalha & Ouro" },
+      { property: "og:title", content: "Minha conta — Romario Barber Shop" },
       { property: "og:description", content: "Atualize seus dados, foto e senha." },
     ],
   }),

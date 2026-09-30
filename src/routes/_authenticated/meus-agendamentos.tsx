@@ -24,9 +24,9 @@ import { dataLonga, hora, mensagemErro, moeda, STATUS_LABEL, textoSeguro } from 
 export const Route = createFileRoute("/_authenticated/meus-agendamentos")({
   head: () => ({
     meta: [
-      { title: "Meus horários — Navalha & Ouro" },
+      { title: "Meus horários — Romario Barber Shop" },
       { name: "description", content: "Veja, cancele ou avalie seus atendimentos na barbearia." },
-      { property: "og:title", content: "Meus horários — Navalha & Ouro" },
+      { property: "og:title", content: "Meus horários — Romario Barber Shop" },
       { property: "og:description", content: "Veja, cancele ou avalie seus atendimentos." },
     ],
   }),
