@@ -152,3 +152,31 @@ grant select on public.clientes_reativacao to authenticated;
 grant select on public.metricas_servicos to authenticated;
 create policy if not exists "metricas_servicos_admin" on public.metricas_servicos
   for select to authenticated using (public.has_role(auth.uid(),'admin'));
+
+
+-- Horário oficial de atendimento da Romario Barber Shop.
+-- 0=domingo, 1=segunda, ..., 6=sábado.
+-- Substitui a jornada genérica anterior e mantém o intervalo 12:00-13:00.
+delete from public.horarios_trabalho
+where barbeiro_id in (
+  select id from public.barbeiros
+  where lower(nome) in ('romario','joao paulo','lucas','davi')
+);
+
+insert into public.horarios_trabalho (barbeiro_id, dia_semana, hora_inicio, hora_fim)
+select b.id, d.dia, d.inicio::time, d.fim::time
+from public.barbeiros b
+cross join (values
+  (1,'13:00','20:00'),
+  (2,'09:00','12:00'),
+  (2,'13:00','20:00'),
+  (3,'09:00','12:00'),
+  (3,'13:00','20:00'),
+  (4,'09:00','12:00'),
+  (4,'13:00','20:00'),
+  (5,'09:00','12:00'),
+  (5,'13:00','20:00'),
+  (6,'09:00','12:00'),
+  (6,'13:00','20:00')
+) as d(dia,inicio,fim)
+where lower(b.nome) in ('romario','joao paulo','lucas','davi');
