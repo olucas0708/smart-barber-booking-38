@@ -30,10 +30,10 @@ export function Header() {
         <Marca />
         <nav className="ml-auto flex items-center gap-1">
           <Button asChild variant="ghost" size="sm" className="hidden lg:inline-flex">
-            <a href="#servicos">Serviços</a>
+            <a href="/#servicos">Serviços</a>
           </Button>
           <Button asChild variant="ghost" size="sm" className="hidden lg:inline-flex">
-            <a href="#localizacao">Localização</a>
+            <a href="/#localizacao">Localização</a>
           </Button>
           <Button asChild variant="ghost" size="sm" className="hidden md:inline-flex">
             <a href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram da Romario Barber Shop">
