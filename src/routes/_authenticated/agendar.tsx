@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Check, Clock, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Clock, Gift, Loader2 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
 import { Estrelas } from "@/components/Estrelas";
@@ -50,6 +51,20 @@ function Agendar() {
   const [dia, setDia] = useState<string>(() => isoData(new Date()));
   const [slot, setSlot] = useState<string | null>(null);
   const [observacoes, setObservacoes] = useState("");
+
+  const { data: fidelidade } = useQuery({
+    queryKey: ["fidelidade", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("fidelidade_clientes" as never)
+        .select("cortes_realizados,premio_disponivel")
+        .eq("cliente_id", userId!)
+        .maybeSingle();
+      if (error) throw error;
+      return data as { cortes_realizados: number; premio_disponivel: boolean } | null;
+    },
+  });
 
   const { data: servicos } = useQuery({
     queryKey: ["servicos-ativos"],
@@ -146,6 +161,18 @@ function Agendar() {
         <p className="mt-1 text-sm text-muted-foreground">
           Olá {perfil?.nome?.split(" ")[0] || "cliente"}, são só {PASSOS.length} passos.
         </p>
+
+        {fidelidade?.premio_disponivel && (
+          <Card className="mt-5 border-primary/30 bg-primary/10">
+            <CardContent className="flex items-center gap-4 p-4">
+              <div className="rounded-full bg-primary p-2 text-primary-foreground"><Gift size={20} /></div>
+              <div>
+                <p className="font-semibold">Seu próximo corte é GRÁTIS!</p>
+                <p className="text-xs text-muted-foreground">O benefício será aplicado automaticamente neste novo agendamento.</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <ol className="mt-5 flex items-center gap-2" aria-label="Etapas do agendamento">
           {PASSOS.map((p, i) => (
@@ -310,7 +337,7 @@ function Agendar() {
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Valor</dt>
-                    <dd className="text-right font-semibold text-primary">{moeda(servico.preco)}</dd>
+                    <dd className="text-right font-semibold text-primary">{fidelidade?.premio_disponivel ? <><span className="mr-2 text-muted-foreground line-through">{moeda(servico.preco)}</span> GRÁTIS</> : moeda(servico.preco)}</dd>
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Pagamento</dt>
