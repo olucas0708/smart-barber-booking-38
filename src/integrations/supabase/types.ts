@@ -41,6 +41,7 @@ export type Database = {
           pagamento_metodo?: string | null
           pagamento_status?: Database["public"]["Enums"]["status_pagamento"]
           preco?: number
+          beneficio_fidelidade?: boolean
           servico_id: string
           status?: Database["public"]["Enums"]["status_agendamento"]
           beneficio_fidelidade?: boolean
@@ -184,6 +185,9 @@ export type Database = {
           id?: string
           nome?: string
           profile_id?: string | null
+          cargo?: string
+          bio?: string | null
+          ordem?: number
         }
         Relationships: []
       }
