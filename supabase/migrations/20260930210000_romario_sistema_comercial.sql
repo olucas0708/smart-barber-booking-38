@@ -144,18 +144,7 @@ left join public.agendamentos a on a.cliente_id=p.id
 group by p.id, p.nome, p.telefone;
 
 grant select on public.clientes_reativacao to authenticated;
-create policy if not exists "clientes_reativacao_admin" on public.clientes_reativacao
-  for select to authenticated using (public.has_role(auth.uid(),'admin'));
-
--- Métricas de negócio para o painel.
-create or replace view public.metricas_servicos as
-select s.id, s.nome,
-       count(a.id) filter (where a.status='concluido')::int as concluidos,
-       coalesce(sum(a.preco) filter (where a.status='concluido'),0)::numeric(10,2) as receita
-from public.servicos s
-left join public.agendamentos a on a.servico_id=s.id
-group by s.id, s.nome;
-
+grant select on public.clientes_reativacao to authenticated;
 grant select on public.metricas_servicos to authenticated;
 create policy if not exists "metricas_servicos_admin" on public.metricas_servicos
   for select to authenticated using (public.has_role(auth.uid(),'admin'));
