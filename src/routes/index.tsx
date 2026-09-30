@@ -179,7 +179,7 @@ function Inicio() {
           </div>
 
           <div className="pointer-events-none absolute bottom-5 left-1/2 hidden -translate-x-1/2 items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 lg:flex">
-            <span className="h-px w-12 bg-border" /> role para explorar <span className="h-px w-12 bg-border" />
+            <span className="h-px w-12 bg-border" /> deslize para explorar <span className="h-px w-12 bg-border" />
           </div>
         </section>
 
