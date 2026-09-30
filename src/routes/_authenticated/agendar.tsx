@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -71,7 +70,7 @@ function Agendar() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("servicos")
-        .select("id, nome, descricao, duracao_minutos, preco, categoria")
+        .select("id, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir")
         .eq("ativo", true)
         .order("preco");
       if (error) throw error;
@@ -209,7 +208,7 @@ function Agendar() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <span className="text-lg font-semibold">{s.nome}</span>
-                  <span className="whitespace-nowrap font-semibold text-primary">{moeda(s.preco)}</span>
+                  <span className="whitespace-nowrap font-semibold text-primary">{s.preco_a_partir ? `A partir de: ${moeda(s.preco)}` : moeda(s.preco)}</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{s.descricao}</p>
                 <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
@@ -337,7 +336,7 @@ function Agendar() {
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Valor</dt>
-                    <dd className="text-right font-semibold text-primary">{fidelidade?.premio_disponivel ? <><span className="mr-2 text-muted-foreground line-through">{moeda(servico.preco)}</span> GRÁTIS</> : moeda(servico.preco)}</dd>
+                    <dd className="text-right font-semibold text-primary">{fidelidade?.premio_disponivel ? <><span className="mr-2 text-muted-foreground line-through">{servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</span> GRÁTIS</> : servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</dd>
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Pagamento</dt>
