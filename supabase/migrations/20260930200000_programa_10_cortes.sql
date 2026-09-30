@@ -9,13 +9,19 @@ create or replace function public.preparar_agendamento_fidelidade()
 returns trigger language plpgsql security definer set search_path = public as $$
 declare
   disponivel boolean;
+  eh_corte boolean;
 begin
   select premio_disponivel into disponivel
   from public.fidelidade_clientes
   where cliente_id = new.cliente_id
   for update;
 
-  if coalesce(disponivel,false) and new.status <> 'cancelado' then
+  select lower(nome) like 'corte%'
+    into eh_corte
+  from public.servicos
+  where id = new.servico_id;
+
+  if coalesce(disponivel,false) and coalesce(eh_corte,false) and new.status <> 'cancelado' then
     new.preco := 0;
     new.beneficio_fidelidade := true;
     update public.fidelidade_clientes
