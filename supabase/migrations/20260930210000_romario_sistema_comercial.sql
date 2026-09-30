@@ -13,7 +13,8 @@ create table if not exists public.preferencias_clientes (
   atualizado_em timestamptz not null default now()
 );
 alter table public.preferencias_clientes enable row level security;
-create policy if not exists "preferencias_proprio" on public.preferencias_clientes
+drop policy if exists "preferencias_proprio" on public.preferencias_clientes;
+create policy "preferencias_proprio" on public.preferencias_clientes
   for all to authenticated
   using (cliente_id = auth.uid() or public.has_role(auth.uid(),'admin'))
   with check (cliente_id = auth.uid() or public.has_role(auth.uid(),'admin'));
@@ -31,9 +32,11 @@ create table if not exists public.promocoes (
   criado_em timestamptz not null default now()
 );
 alter table public.promocoes enable row level security;
-create policy if not exists "promocoes_publicas" on public.promocoes
+drop policy if exists "promocoes_publicas" on public.promocoes;
+create policy "promocoes_publicas" on public.promocoes
   for select to anon, authenticated using (ativo and validade_inicio <= current_date and (validade_fim is null or validade_fim >= current_date));
-create policy if not exists "promocoes_admin" on public.promocoes
+drop policy if exists "promocoes_admin" on public.promocoes;
+create policy "promocoes_admin" on public.promocoes
   for all to authenticated
   using (public.has_role(auth.uid(),'admin'))
   with check (public.has_role(auth.uid(),'admin'));
@@ -53,7 +56,8 @@ create table if not exists public.automacoes_comerciais (
 create index if not exists automacoes_status_data_idx on public.automacoes_comerciais(status, agendado_para);
 create index if not exists automacoes_cliente_idx on public.automacoes_comerciais(cliente_id, criado_em desc);
 alter table public.automacoes_comerciais enable row level security;
-create policy if not exists "automacoes_admin" on public.automacoes_comerciais
+drop policy if exists "automacoes_admin" on public.automacoes_comerciais;
+create policy "automacoes_admin" on public.automacoes_comerciais
   for all to authenticated
   using (public.has_role(auth.uid(),'admin'))
   with check (public.has_role(auth.uid(),'admin'));
@@ -136,7 +140,7 @@ for each row execute function public.criar_automacoes_agendamento();
 revoke all on function public.criar_automacoes_agendamento() from public, anon, authenticated;
 
 -- Clientes sem atendimento concluído há 45 dias entram no radar de reativação.
-create or replace view public.clientes_reativacao as
+create or replace view public.clientes_reativacao with (security_invoker=true) as
 select p.id as cliente_id, p.nome, p.telefone,
        max(a.inicio) filter (where a.status='concluido') as ultimo_atendimento
 from public.profiles p
