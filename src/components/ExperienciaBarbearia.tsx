@@ -10,10 +10,10 @@ const WA="https://wa.me/5534992041902?text="+encodeURIComponent("Olá! Quero fal
 const IG="https://www.instagram.com/romariobarbershop.roosevelt/";
 const MAP="https://www.google.com/maps/search/?api=1&query=Avenida+Jo%C3%A3o+Bernardes+de+Souza%2C+438%2C+Presidente+Roosevelt%2C+Uberl%C3%A2ndia%2C+MG";
 const estilos=[
- ["Degradê","Precisão nas laterais e acabamento limpo.","from-zinc-700 to-zinc-950"],
- ["Navalhado","Linhas marcadas para um visual definido.","from-stone-600 to-zinc-950"],
- ["Social","Clássico, versátil e alinhado.","from-neutral-600 to-neutral-950"],
- ["Barba","Modelagem e acabamento para completar.","from-amber-900/70 to-zinc-950"],
+ ["Degradê","Precisão nas laterais e acabamento limpo.","https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1200&q=85"],
+ ["Navalhado","Linhas marcadas para um visual definido.","https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=85"],
+ ["Social","Clássico, versátil e alinhado.","https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1200&q=85"],
+ ["Barba","Modelagem e acabamento para completar.","https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1200&q=85"],
 ];
 const faqs=[
  ["Como faço para agendar?","Escolha serviço, barbeiro e horário. A confirmação é feita pela agenda online."],
@@ -30,8 +30,13 @@ export function ExperienciaBarbearia(){
    <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">Demonstração interativa pronta para receber fotos reais dos trabalhos da barbearia.</p>
    <Button asChild className="mt-7"><Link to="/agendar"><CalendarCheck/> Quero meu horário</Link></Button>
   </div><div className="overflow-hidden rounded-3xl border border-border bg-black shadow-2xl">
-   <div className="relative aspect-[16/10] bg-gradient-to-br from-neutral-800 via-neutral-950 to-black"><div className="absolute inset-0 flex items-center justify-center text-center"><Scissors className="mx-auto text-primary" size={54}/><p className="mt-3 font-display text-5xl">SEU NOVO VISUAL</p></div>
-    <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-primary bg-gradient-to-br from-primary/20 via-black/40 to-black/90" style={{width:`${pos}%`}}><div className="flex h-full min-w-[700px] items-center justify-center"><Sparkles className="text-primary" size={42}/></div></div>
+   <div className="relative aspect-[16/10] overflow-hidden bg-black">
+    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1600&q=88" alt="Corte masculino em barbearia" className="absolute inset-0 h-full w-full object-cover"/>
+    <div className="absolute inset-0 bg-black/25"/>
+    <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-primary" style={{width:`${pos}%`}}>
+      <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1600&q=88" alt="Resultado de corte masculino" className="h-full w-[100vw] max-w-none object-cover object-center grayscale"/>
+      <span className="absolute inset-0 bg-primary/10 mix-blend-screen"/>
+    </div>
     <span className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-widest">Antes</span><span className="absolute right-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-widest">Depois</span>
     <input aria-label="Controle antes e depois" type="range" min="5" max="95" value={pos} onChange={e=>setPos(+e.target.value)} className="absolute inset-x-4 bottom-5 z-10 w-[calc(100%-2rem)] accent-[var(--color-primary)]"/>
    </div>
@@ -39,7 +44,7 @@ export function ExperienciaBarbearia(){
  </section>
  <section className="border-y border-border/70 bg-card/30"><div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
   <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p className="section-kicker">Inspiração</p><h2 className="mt-2 text-4xl sm:text-6xl">ESCOLHA SEU ESTILO.</h2></div><a href={IG} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-primary"><Instagram size={17}/> Ver Instagram</a></div>
-  <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{estilos.map(([nome,desc,cor],i)=><button key={nome} type="button" onClick={()=>setEstilo(i)} className={cn("group overflow-hidden rounded-2xl border text-left transition duration-300 hover:-translate-y-1",i===estilo?"border-primary shadow-2xl":"border-border")}><div className={`relative aspect-[4/5] bg-gradient-to-br ${cor}`}><div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_30%,rgba(255,255,255,.16),transparent_22%),linear-gradient(160deg,transparent_45%,rgba(0,0,0,.75))]"/><div className="absolute bottom-5 left-5"><Badge className="mb-3 bg-primary">Estilo {String(i+1).padStart(2,"0")}</Badge><h3 className="font-display text-4xl text-white">{nome}</h3><p className="mt-2 max-w-[190px] text-xs leading-5 text-white/70">{desc}</p></div></div></button>)}</div>
+  <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{estilos.map(([nome,desc,cor],i)=><button key={nome} type="button" onClick={()=>setEstilo(i)} className={cn("group overflow-hidden rounded-2xl border text-left transition duration-300 hover:-translate-y-1",i===estilo?"border-primary shadow-2xl":"border-border")}><div className="relative aspect-[4/5] overflow-hidden bg-black"><img src={cor} alt={`Referência de estilo ${nome}`} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10"/><div className="absolute bottom-5 left-5"><Badge className="mb-3 bg-primary">Estilo {String(i+1).padStart(2,"0")}</Badge><h3 className="font-display text-4xl text-white">{nome}</h3><p className="mt-2 max-w-[190px] text-xs leading-5 text-white/70">{desc}</p></div></div></button>)}</div>
   <Card className="premium-card mt-5"><CardContent className="flex flex-col justify-between gap-5 p-6 sm:flex-row sm:items-center"><div><p className="text-xs uppercase tracking-[.2em] text-primary">Selecionado</p><h3 className="mt-1 text-2xl">{estilos[estilo][0]}</h3><p className="text-sm text-muted-foreground">{estilos[estilo][1]}</p></div><Button asChild><Link to="/agendar">Agendar este estilo <ArrowRight/></Link></Button></CardContent></Card>
  </div></section>
  <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="grid gap-5 md:grid-cols-3">{[
