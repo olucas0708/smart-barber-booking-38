@@ -104,6 +104,44 @@ export type Database = {
         }
         Relationships: []
       }
+      automacoes_comerciais: {
+        Row: {
+          agendado_para: string
+          cliente_id: string | null
+          created_at: string
+          id: string
+          mensagem: string | null
+          status: string
+          tipo: string
+        }
+        Insert: {
+          agendado_para?: string
+          cliente_id?: string | null
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          status?: string
+          tipo: string
+        }
+        Update: {
+          agendado_para?: string
+          cliente_id?: string | null
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          status?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automacoes_comerciais_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       avaliacoes: {
         Row: {
           agendamento_id: string
@@ -152,6 +190,7 @@ export type Database = {
       barbeiros: {
         Row: {
           ativo: boolean
+          cargo: string | null
           criado_em: string
           especialidades: string[]
           foto_url: string | null
@@ -161,6 +200,7 @@ export type Database = {
         }
         Insert: {
           ativo?: boolean
+          cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
@@ -170,6 +210,7 @@ export type Database = {
         }
         Update: {
           ativo?: boolean
+          cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
@@ -325,6 +366,7 @@ export type Database = {
           id: string
           nome: string
           preco: number
+          preco_a_partir: boolean
         }
         Insert: {
           ativo?: boolean
@@ -335,6 +377,7 @@ export type Database = {
           id?: string
           nome: string
           preco: number
+          preco_a_partir?: boolean
         }
         Update: {
           ativo?: boolean
@@ -345,6 +388,7 @@ export type Database = {
           id?: string
           nome?: string
           preco?: number
+          preco_a_partir?: boolean
         }
         Relationships: []
       }
