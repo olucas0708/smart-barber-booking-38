@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { ExperienciaBarbearia } from "@/components/ExperienciaBarbearia";
+import { BuscaServicos } from "@/components/BuscaServicos";
 import { Estrelas } from "@/components/Estrelas";
 import { Foto } from "@/components/Foto";
 import { Button } from "@/components/ui/button";
@@ -201,41 +202,7 @@ function Inicio() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {carregandoServicos
-              ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-2xl" />)
-              : servicosExibidos.length > 0
-                ? servicosExibidos.map((s) => (
-                    <Card key={s.id} className="premium-card group">
-                      <CardContent className="flex h-full min-h-40 flex-col gap-3 p-6">
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            {s.categoria && (
-                              <Badge variant="secondary" className="mb-2 rounded-full text-[10px] uppercase tracking-wider">
-                                {s.categoria}
-                              </Badge>
-                            )}
-                            <h3 className="text-2xl leading-none">{s.nome}</h3>
-                          </div>
-                          <span className="whitespace-nowrap text-sm font-semibold text-primary">{s.preco_a_partir ? `A partir de: ${moeda(s.preco)}` : moeda(s.preco)}</span>
-                        </div>
-                        <p className="text-sm leading-6 text-muted-foreground">{s.descricao}</p>
-                        <div className="mt-auto flex items-center gap-2 pt-2 text-xs text-muted-foreground">
-                          <Clock3 size={14} aria-hidden="true" />
-                          {s.duracao_minutos} min
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                : (
-                    <Card className="premium-card sm:col-span-2 lg:col-span-3">
-                      <CardContent className="p-7 text-sm text-muted-foreground">
-                        Os serviços estão sendo atualizados. Entre em contato pelo WhatsApp para consultar
-                        disponibilidade e valores.
-                      </CardContent>
-                    </Card>
-                  )}
-          </div>
+          {carregandoServicos ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-2xl" />)}</div> : <BuscaServicos servicos={servicosExibidos} />}
         </section>
 
         <section className="border-y border-border/70 bg-card/30">
@@ -260,21 +227,14 @@ function Inicio() {
                 (equipe ?? []).map((b) => (
                   <Card key={b.id} className="premium-card">
                     <CardContent className="flex items-center gap-4 p-5">
-                      <Foto caminho={b.foto_url} nome={b.nome} className="h-20 w-20" />
+                      <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-dashed border-primary/35 bg-background text-[10px] uppercase tracking-widest text-muted-foreground">Foto em breve</div>
                       <div className="min-w-0">
                         <h3 className="truncate text-2xl leading-none">{b.nome}</h3>
-                        <p className="mt-2 truncate text-xs text-muted-foreground">
-                          {b.cargo || "Barbeiro"} · {b.especialidades?.join(" · ") || "Barbeiro"}
-                        </p>
-                        <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                          {b.media ? (
-                            <>
-                              <Estrelas nota={b.media} />
-                              <span>{b.media.toFixed(1)}</span>
-                            </>
-                          ) : (
-                            "Perfil disponível na agenda"
-                          )}
+                        <p className="mt-2 text-xs text-primary">{b.cargo || "Barbeiro"}</p>
+                        <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{b.bio || b.especialidades?.join(" · ") || "Barbeiro"}</p>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                          {b.especialidades?.slice(0,3).map((e:string)=><Badge key={e} variant="secondary">{e}</Badge>)}
+                          {b.media && <><Estrelas nota={b.media} /><span>{b.media.toFixed(1)}</span></>}
                         </div>
                       </div>
                     </CardContent>
