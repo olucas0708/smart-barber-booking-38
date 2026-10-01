@@ -220,7 +220,7 @@ function Agendar() {
                 </p>
               </button>
               ))}
-            </>
+            </>}
 
           {passo === 1 &&
             (barbeiros ?? []).map((b) => (

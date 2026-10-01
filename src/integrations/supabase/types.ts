@@ -28,7 +28,6 @@ export type Database = {
           preco: number
           servico_id: string
           status: Database["public"]["Enums"]["status_agendamento"]
-          beneficio_fidelidade: boolean
         }
         Insert: {
           barbeiro_id: string
@@ -43,7 +42,6 @@ export type Database = {
           preco?: number
           servico_id: string
           status?: Database["public"]["Enums"]["status_agendamento"]
-          beneficio_fidelidade?: boolean
         }
         Update: {
           barbeiro_id?: string
@@ -106,6 +104,44 @@ export type Database = {
         }
         Relationships: []
       }
+      automacoes_comerciais: {
+        Row: {
+          agendado_para: string
+          cliente_id: string | null
+          created_at: string
+          id: string
+          mensagem: string | null
+          status: string
+          tipo: string
+        }
+        Insert: {
+          agendado_para?: string
+          cliente_id?: string | null
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          status?: string
+          tipo: string
+        }
+        Update: {
+          agendado_para?: string
+          cliente_id?: string | null
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          status?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automacoes_comerciais_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       avaliacoes: {
         Row: {
           agendamento_id: string
@@ -154,39 +190,39 @@ export type Database = {
       barbeiros: {
         Row: {
           ativo: boolean
+          bio: string | null
+          cargo: string | null
           criado_em: string
           especialidades: string[]
           foto_url: string | null
           id: string
           nome: string
-          profile_id: string | null
-          cargo: string
-          bio: string | null
           ordem: number
+          profile_id: string | null
         }
         Insert: {
           ativo?: boolean
+          bio?: string | null
+          cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
           id?: string
           nome: string
-          profile_id?: string | null
-          cargo?: string
-          bio?: string | null
           ordem?: number
+          profile_id?: string | null
         }
         Update: {
           ativo?: boolean
+          bio?: string | null
+          cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
           id?: string
           nome?: string
-          profile_id?: string | null
-          cargo?: string
-          bio?: string | null
           ordem?: number
+          profile_id?: string | null
         }
         Relationships: []
       }
