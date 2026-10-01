@@ -1,0 +1,1 @@
+ALTER TABLE public.barbeiros ADD COLUMN IF NOT EXISTS bio text, ADD COLUMN IF NOT EXISTS ordem integer NOT NULL DEFAULT 0;

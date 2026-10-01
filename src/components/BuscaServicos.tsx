@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { moeda } from "@/lib/barbearia";
 
-type Servico={id:string;nome:string;descricao:string;duracao_minutos:number;preco:number;categoria:string|null;preco_a_partir:boolean};
+type Servico={id:string;nome:string;descricao:string|null;duracao_minutos:number;preco:number;categoria:string|null;preco_a_partir:boolean};
 
 export function BuscaServicos({servicos}:{servicos:Servico[]}) {
  const [busca,setBusca]=useState(""); const [categoria,setCategoria]=useState("Todos");

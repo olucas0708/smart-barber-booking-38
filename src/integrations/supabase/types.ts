@@ -190,32 +190,38 @@ export type Database = {
       barbeiros: {
         Row: {
           ativo: boolean
+          bio: string | null
           cargo: string | null
           criado_em: string
           especialidades: string[]
           foto_url: string | null
           id: string
           nome: string
+          ordem: number
           profile_id: string | null
         }
         Insert: {
           ativo?: boolean
+          bio?: string | null
           cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
           id?: string
           nome: string
+          ordem?: number
           profile_id?: string | null
         }
         Update: {
           ativo?: boolean
+          bio?: string | null
           cargo?: string | null
           criado_em?: string
           especialidades?: string[]
           foto_url?: string | null
           id?: string
           nome?: string
+          ordem?: number
           profile_id?: string | null
         }
         Relationships: []
