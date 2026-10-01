@@ -27,7 +27,30 @@ const INSTAGRAM = "https://www.instagram.com/romariobarbershop.roosevelt/";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Avenida+Jo%C3%A3o+Bernardes+de+Souza%2C+438%2C+Presidente+Roosevelt%2C+Uberl%C3%A2ndia%2C+MG";
 const ADDRESS = "Av. João Bernardes de Souza, 438 — Presidente Roosevelt, Uberlândia/MG";
 const CATALOGO_FALLBACK = [
-  ["Acabamento","Acabamento e finalização.",10,10,"Cabelo",false], ["Barba","Barba com acabamento profissional.",30,30,"Barba",false], ["Barba + Pigmentação","Barba com pigmentação.",50,55,"Barba",false], ["Barba + Acabamento","Combo de barba e acabamento.",30,40,"Combo",false], ["Cone Hindu","Procedimento com cone hindu.",20,25,"Estética",false], ["Corte","Corte masculino com finalização.",30,40,"Cabelo",false], ["Corte + Sobrancelha Navalha","Corte com sobrancelha na navalha.",40,50,"Combo",false], ["Corte só máquina — 1 numeração","Corte somente com máquina em uma numeração.",20,30,"Cabelo",false], ["Corte + Barba + Sobrancelha Navalha","Combo completo.",60,80,"Combo",false], ["Corte + Barba","Combo de corte e barba.",60,70,"Combo",false], ["Corte + Selagem","Corte com selagem capilar.",90,95,"Cabelo",true], ["Depilação nasal","Remoção de pelos da região nasal.",10,15,"Estética",false], ["Hidratação","Hidratação capilar.",10,30,"Cabelo",false], ["Limpeza facial","Limpeza e cuidado facial.",20,30,"Estética",false], ["Limpeza nasal","Limpeza da região nasal.",10,15,"Estética",false], ["Luzes","Iluminação dos fios.",150,150,"Coloração",true], ["Pigmentação","Pigmentação para correção e definição.",20,25,"Barba",false], ["Platinado","Transformação para efeito platinado.",150,150,"Coloração",false], ["Raspa cabeça na navalha","Raspagem da cabeça com navalha.",20,30,"Cabelo",false], ["Relaxamento Capilar","Relaxamento capilar.",10,55,"Cabelo",false], ["Selagem","Selagem capilar.",60,55,"Cabelo",true], ["Sobrancelha navalha","Acabamento de sobrancelha com navalha.",10,15,"Estética",false], ["Sobrancelha pinça","Design de sobrancelha com pinça.",30,35,"Estética",false],
+  ["acabamento","Acabamento e finalização.",10,10,"Cabelo",false],
+  ["barba","Barba com acabamento profissional.",30,30,"Barba",false],
+  ["barba +pigmentação","Barba com pigmentação.",50,55,"Barba",false],
+  ["barba+acabamento","Combo de barba e acabamento.",30,40,"Combo",false],
+  ["cone hindu","Procedimento com cone hindu.",20,25,"Estética",false],
+  ["corte","Corte masculino com finalização.",30,40,"Cabelo",false],
+  ["corte + sombrancelha navalha","Corte com sombrancelha na navalha.",40,50,"Combo",false],
+  ["corte so maquina 1 numeração","Corte feito somente com máquina em uma numeração.",20,30,"Cabelo",false],
+  ["corte+ barba+ sombrancelha navalha","Combo completo com corte, barba e sombrancelha na navalha.",60,80,"Combo",false],
+  ["corte+barba","Combo de corte e barba.",60,70,"Combo",false],
+  ["corte+selagem","Corte com selagem capilar.",90,95,"Cabelo",true],
+  ["depilação nasal","Remoção de pelos da região nasal.",10,15,"Estética",false],
+  ["hidratação","Hidratação capilar.",10,30,"Cabelo",false],
+  ["limpeza facial","Limpeza e cuidado facial.",20,30,"Estética",false],
+  ["limpeza nasal","Limpeza da região nasal.",10,15,"Estética",false],
+  ["luzes","Iluminação dos fios.",150,150,"Coloração",true],
+  ["luzes","Iluminação dos fios.",150,150,"Coloração",false],
+  ["pigmentação","Pigmentação para correção e definição.",20,25,"Barba",false],
+  ["platinado","Transformação para efeito platinado.",150,150,"Coloração",false],
+  ["Raspa cabeça na navalha","Raspagem da cabeça com navalha.",20,30,"Cabelo",false],
+  ["Relaxamento Capilar","Relaxamento capilar.",10,55,"Cabelo",false],
+  ["selagem","Selagem capilar.",60,55,"Cabelo",true],
+  ["sombrancelha navalha","Acabamento de sombrancelha com navalha.",10,15,"Estética",false],
+  ["sombrancelha pinça","Design de sombrancelha com pinça.",30,35,"Estética",false],
 ] as const;
 
 
