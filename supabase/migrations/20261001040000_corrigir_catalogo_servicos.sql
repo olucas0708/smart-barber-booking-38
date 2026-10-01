@@ -107,7 +107,12 @@ where not exists (
   select 1 from public.servicos s where lower(trim(s.nome)) = lower(trim(v.nome))
 );
 
--- Garante que nenhum serviço oficial fique desativado por engano.
+-- Restaura também os serviços antigos que a migration anterior havia apenas desativado.
+-- Nenhum serviço existente é excluído.
+update public.servicos
+set ativo = true;
+
+-- Garante que os serviços oficiais permaneçam ativos.
 update public.servicos
 set ativo = true
 where lower(trim(nome)) in (
