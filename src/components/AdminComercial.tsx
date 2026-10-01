@@ -10,6 +10,7 @@ import { moeda } from "@/lib/barbearia";
 export function AdminComercial() {
   const { data: ag=[] } = useQuery({ queryKey:["comercial-ag"], queryFn:async()=>{ const {data,error}=await supabase.from("agendamentos").select("id,cliente_id,inicio,status,preco,servico_id,barbeiro_id,servicos(nome),barbeiros(nome)").limit(1000); if(error) throw error; return data??[]; }});
   const { data: clientes=[] } = useQuery({ queryKey:["comercial-clientes"], queryFn:async()=>{ const {data,error}=await supabase.from("clientes_reativacao" as never).select("*"); if(error) throw error; return (data??[]) as any[]; }});
+  const { data: automacoes=[] } = useQuery({ queryKey:["automacoes-comerciais"], queryFn:async()=>{ const {data,error}=await supabase.from("automacoes_comerciais").select("id,cliente_id,tipo,status,agendado_para,mensagem").eq("status","pendente").order("agendado_para").limit(20); if(error) throw error; return data??[]; }});
   const { data: metricas=[] } = useQuery({ queryKey:["metricas-servicos"], queryFn:async()=>{ const {data,error}=await supabase.from("metricas_servicos" as never).select("*").order("receita",{ascending:false}); if(error) throw error; return (data??[]) as any[]; }});
   const concluidos=ag.filter((a:any)=>a.status==="concluido");
   const ticket=concluidos.length?concluidos.reduce((s:number,a:any)=>s+Number(a.preco),0)/concluidos.length:0;
@@ -38,6 +39,11 @@ export function AdminComercial() {
     <Card><CardHeader><CardTitle className="flex items-center gap-2"><MessageCircle size={19}/> Recuperação de clientes</CardTitle></CardHeader><CardContent className="space-y-2">
       {reativar.slice(0,10).map((c:any)=><div key={c.cliente_id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"><div><p className="font-semibold">{c.nome}</p><p className="text-xs text-muted-foreground">Último atendimento: {new Date(c.ultimo_atendimento).toLocaleDateString("pt-BR")}</p></div><Button asChild size="sm"><a href={whatsapp(c.telefone,c.nome)} target="_blank" rel="noreferrer"><MessageCircle/> Reativar</a></Button></div>)}
       {!reativar.length&&<p className="text-sm text-muted-foreground">Nenhum cliente parado há mais de 45 dias.</p>}
+    </CardContent></Card>
+    <Card><CardHeader><CardTitle className="flex items-center gap-2"><MessageCircle size={19}/> WhatsApp & automações</CardTitle></CardHeader><CardContent className="space-y-3">
+      <p className="text-sm text-muted-foreground">A fila comercial já separa lembretes, pós-atendimento e reativação. Cada ação pode abrir o WhatsApp com a mensagem pronta; envio 100% automático exige conectar uma API oficial.</p>
+      {automacoes.slice(0,6).map((a:any)=><div key={a.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"><div><Badge variant="secondary">{a.tipo}</Badge><p className="mt-1 max-w-xl text-xs text-muted-foreground">{a.mensagem}</p></div><Button asChild size="sm"><a href={"https://wa.me/5534992041902?text="+encodeURIComponent(a.mensagem||"Olá!")} target="_blank" rel="noreferrer"><MessageCircle/> Abrir WhatsApp</a></Button></div>)}
+      {!automacoes.length&&<p className="text-sm text-muted-foreground">Nenhuma ação pendente no momento.</p>}
     </CardContent></Card>
     <Card><CardHeader><CardTitle className="flex items-center gap-2"><CalendarClock size={19}/> Automação preparada</CardTitle></CardHeader><CardContent><p className="text-sm text-muted-foreground">O sistema já cria filas para lembrete 24h antes e pedido de avaliação após o atendimento. O envio automático pelo WhatsApp depende da conexão de um provedor/API oficial.</p><div className="mt-3 flex flex-wrap gap-2"><Badge><Percent size={13}/> Promoções</Badge><Badge><UserRound size={13}/> Preferências</Badge><Badge><CalendarClock size={13}/> Lembretes</Badge></div></CardContent></Card>
   </section>;
