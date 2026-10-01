@@ -31,10 +31,10 @@ export function ExperienciaBarbearia(){
    <Button asChild className="mt-7"><Link to="/agendar"><CalendarCheck/> Quero meu horário</Link></Button>
   </div><div className="overflow-hidden rounded-3xl border border-border bg-black shadow-2xl">
    <div className="relative aspect-[16/10] overflow-hidden bg-black">
-    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1600&q=88" alt="Corte masculino em barbearia" className="absolute inset-0 h-full w-full object-cover"/>
+    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1600&q=88" alt="Corte masculino em barbearia" className="absolute inset-0 h-full w-full object-cover"/>
     <div className="absolute inset-0 bg-black/25"/>
     <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-primary" style={{width:`${pos}%`}}>
-      <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1600&q=88" alt="Resultado de corte masculino" className="h-full w-[100vw] max-w-none object-cover object-center grayscale"/>
+      <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1600&q=88" alt="Resultado de corte masculino" className="h-full w-[100vw] max-w-none object-cover object-center grayscale"/>
       <span className="absolute inset-0 bg-primary/10 mix-blend-screen"/>
     </div>
     <span className="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-widest">Antes</span><span className="absolute right-4 top-4 rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-widest">Depois</span>
