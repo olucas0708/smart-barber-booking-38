@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { CalendarDays, Instagram, LogOut, Moon, Scissors, Shield, Sun, User } from "lucide-react";
+import { Instagram, LogOut, Scissors, Shield, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,13 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Marca } from "@/components/Marca";
 import { useAuth } from "@/lib/auth";
-import { useTema } from "@/lib/theme";
 
 const INSTAGRAM = "https://www.instagram.com/romariobarbershop.roosevelt/";
 
 export function Header() {
   const { session, isAdmin, isBarbeiro, perfil, signOut } = useAuth();
-  const { tema, alternar } = useTema();
   const navigate = useNavigate();
 
   async function sair() {
@@ -74,14 +72,6 @@ export function Header() {
             </Button>
           )}
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={alternar}
-            aria-label={tema === "escuro" ? "Ativar tema claro" : "Ativar tema escuro"}
-          >
-            {tema === "escuro" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
-          </Button>
         </nav>
       </div>
     </header>
