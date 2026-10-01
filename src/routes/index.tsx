@@ -243,6 +243,22 @@ function Inicio() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
+              <Card className="premium-card sm:col-span-2 border-primary/30 bg-primary/[0.04]">
+                <CardContent className="flex items-center gap-5 p-5 sm:p-6">
+                  <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-dashed border-primary/45 bg-background text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Foto em breve
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">Dono & fundador</span>
+                    </div>
+                    <h3 className="mt-2 text-3xl leading-none">Romario</h3>
+                    <p className="mt-2 text-xs text-primary">Barbeiro · Proprietário da Romario Barber Shop</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Responsável pela barbearia e pela experiência Romario Barber Shop.</p>
+                  </div>
+                </CardContent>
+              </Card>
+
               {(equipe ?? []).length > 0 ? (
                 (equipe ?? []).map((b) => (
                   <Card key={b.id} className="premium-card">
