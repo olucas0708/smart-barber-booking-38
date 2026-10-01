@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   CalendarCheck,
-  Clock3,
   Instagram,
   MapPin,
   MessageCircle,
@@ -15,13 +14,11 @@ import { Header } from "@/components/Header";
 import { ExperienciaBarbearia } from "@/components/ExperienciaBarbearia";
 import { BuscaServicos } from "@/components/BuscaServicos";
 import { Estrelas } from "@/components/Estrelas";
-import { Foto } from "@/components/Foto";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
-import { moeda } from "@/lib/barbearia";
 import { useAuth } from "@/lib/auth";
 import heroImg from "@/assets/hero-barbearia.jpg";
 
