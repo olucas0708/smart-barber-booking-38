@@ -28,6 +28,10 @@ const WHATSAPP = "5534992041902";
 const INSTAGRAM = "https://www.instagram.com/romariobarbershop.roosevelt/";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Avenida+Jo%C3%A3o+Bernardes+de+Souza%2C+438%2C+Presidente+Roosevelt%2C+Uberl%C3%A2ndia%2C+MG";
 const ADDRESS = "Av. João Bernardes de Souza, 438 — Presidente Roosevelt, Uberlândia/MG";
+const CATALOGO_FALLBACK = [
+  ["Acabamento","Acabamento e finalização.",10,10,"Cabelo",false], ["Barba","Barba com acabamento profissional.",30,30,"Barba",false], ["Barba + Pigmentação","Barba com pigmentação.",50,55,"Barba",false], ["Barba + Acabamento","Combo de barba e acabamento.",30,40,"Combo",false], ["Cone Hindu","Procedimento com cone hindu.",20,25,"Estética",false], ["Corte","Corte masculino com finalização.",30,40,"Cabelo",false], ["Corte + Sobrancelha Navalha","Corte com sobrancelha na navalha.",40,50,"Combo",false], ["Corte só máquina — 1 numeração","Corte somente com máquina em uma numeração.",20,30,"Cabelo",false], ["Corte + Barba + Sobrancelha Navalha","Combo completo.",60,80,"Combo",false], ["Corte + Barba","Combo de corte e barba.",60,70,"Combo",false], ["Corte + Selagem","Corte com selagem capilar.",90,95,"Cabelo",true], ["Depilação nasal","Remoção de pelos da região nasal.",10,15,"Estética",false], ["Hidratação","Hidratação capilar.",10,30,"Cabelo",false], ["Limpeza facial","Limpeza e cuidado facial.",20,30,"Estética",false], ["Limpeza nasal","Limpeza da região nasal.",10,15,"Estética",false], ["Luzes","Iluminação dos fios.",150,150,"Coloração",true], ["Pigmentação","Pigmentação para correção e definição.",20,25,"Barba",false], ["Platinado","Transformação para efeito platinado.",150,150,"Coloração",false], ["Raspa cabeça na navalha","Raspagem da cabeça com navalha.",20,30,"Cabelo",false], ["Relaxamento Capilar","Relaxamento capilar.",10,55,"Cabelo",false], ["Selagem","Selagem capilar.",60,55,"Cabelo",true], ["Sobrancelha navalha","Acabamento de sobrancelha com navalha.",10,15,"Estética",false], ["Sobrancelha pinça","Design de sobrancelha com pinça.",30,35,"Estética",false],
+] as const;
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -63,6 +67,8 @@ function Inicio() {
       return data;
     },
   });
+
+  const servicosExibidos = servicos?.length ? servicos : CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({ id: `catalogo-${i}`, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir }));
 
   const { data: equipe } = useQuery({
     queryKey: ["equipe-publica"],
@@ -198,8 +204,8 @@ function Inicio() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {carregandoServicos
               ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-2xl" />)
-              : (servicos ?? []).length > 0
-                ? (servicos ?? []).map((s) => (
+              : servicosExibidos.length > 0
+                ? servicosExibidos.map((s) => (
                     <Card key={s.id} className="premium-card group">
                       <CardContent className="flex h-full min-h-40 flex-col gap-3 p-6">
                         <div className="flex items-start justify-between gap-4">
