@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Check, Clock, Gift, Loader2, MessageCircle, Search } from "lucide-react";
+import { ArrowLeft, Check, Clock, Gift, Loader2, Search } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
 import { Estrelas } from "@/components/Estrelas";
