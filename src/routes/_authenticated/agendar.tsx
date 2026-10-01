@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowLeft, Check, Clock, Gift, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Clock, Gift, Loader2, MessageCircle, Search } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
 import { Estrelas } from "@/components/Estrelas";
@@ -50,6 +50,7 @@ function Agendar() {
   const [dia, setDia] = useState<string>(() => isoData(new Date()));
   const [slot, setSlot] = useState<string | null>(null);
   const [observacoes, setObservacoes] = useState("");
+  const [buscaServico, setBuscaServico] = useState("");
 
   const { data: fidelidade } = useQuery({
     queryKey: ["fidelidade", userId],
@@ -97,6 +98,7 @@ function Agendar() {
     },
   });
 
+  const servicosFiltrados = useMemo(() => { const q = buscaServico.trim().toLowerCase(); if (!q) return servicos ?? []; return (servicos ?? []).filter(s => `${s.nome} ${s.descricao} ${s.categoria ?? ""}`.toLowerCase().includes(q)); }, [servicos, buscaServico]);
   const servico = useMemo(() => servicos?.find((s) => s.id === servicoId), [servicos, servicoId]);
   const barbeiro = useMemo(() => barbeiros?.find((b) => b.id === barbeiroId), [barbeiros, barbeiroId]);
 
@@ -192,7 +194,9 @@ function Agendar() {
 
         <div className="mt-6 space-y-4">
           {passo === 0 &&
-            (servicos ?? []).map((s) => (
+            <>
+              <div className="relative"><Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={17}/><input value={buscaServico} onChange={e=>setBuscaServico(e.target.value)} placeholder="Buscar serviço..." className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-3 text-sm outline-none focus:border-primary"/></div>
+              {servicosFiltrados.map((s) => (
               <button
                 key={s.id}
                 type="button"
@@ -215,7 +219,8 @@ function Agendar() {
                   <Clock size={13} aria-hidden="true" /> {s.duracao_minutos} min
                 </p>
               </button>
-            ))}
+              ))}
+            </>
 
           {passo === 1 &&
             (barbeiros ?? []).map((b) => (
@@ -275,6 +280,8 @@ function Agendar() {
                   );
                 })}
               </div>
+
+              {!buscandoSlots && slots && slots.length > 0 && <div className="flex items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-xs"><span className="text-muted-foreground">{slots.length} horários disponíveis</span><span className={cn("font-semibold", slots.length <= 3 ? "text-warning" : "text-success")}>{slots.length <= 3 ? "Alta procura" : "Boa disponibilidade"}</span></div>}
 
               {buscandoSlots ? (
                 <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
