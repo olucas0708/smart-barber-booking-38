@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Upload } from "lucide-react";
+import { CalendarCheck, Scissors, Star, Upload } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Foto } from "@/components/Foto";
 import { ProgramaFidelidade } from "@/components/ProgramaFidelidade";
@@ -32,6 +32,18 @@ function Perfil() {
   const queryClient = useQueryClient();
   const arquivoRef = useRef<HTMLInputElement>(null);
   const [enviando, setEnviando] = useState(false);
+  const { data: resumo } = useQuery({
+    queryKey: ["resumo-cliente", userId], enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("agendamentos").select("id,inicio,status,preco,servicos(nome),barbeiros(nome),avaliacoes(nota)").eq("cliente_id", userId!).order("inicio", { ascending: false }).limit(100);
+      if (error) throw error;
+      const itens = data ?? [];
+      const futuros = itens.filter((a:any) => new Date(a.inicio).getTime() >= Date.now() && ["pendente","confirmado"].includes(a.status));
+      const concluidos = itens.filter((a:any) => a.status === "concluido");
+      const notas = concluidos.flatMap((a:any) => (a.avaliacoes ?? []).map((x:any)=>x.nota));
+      return { proximo: futuros[0] ?? null, total: concluidos.length, nota: notas.length ? notas.reduce((s:number,n:number)=>s+n,0)/notas.length : null };
+    },
+  });
 
   const { data: foto } = useQuery({
     queryKey: ["minha-foto", userId],
@@ -109,6 +121,16 @@ function Perfil() {
 
         <ProgramaFidelidade />
         <ClientePlus />
+        {resumo && <section className="grid gap-3 sm:grid-cols-2">
+          <Card className="premium-card sm:col-span-2"><CardContent className="flex flex-wrap items-center justify-between gap-4 p-5">
+            <div><p className="text-xs uppercase tracking-[.2em] text-primary">Seu próximo corte</p>
+              <p className="mt-1 text-xl font-semibold">{resumo.proximo ? (resumo.proximo.servicos?.nome ?? "Atendimento") + " · " + new Date(resumo.proximo.inicio).toLocaleDateString("pt-BR") : "Nenhum horário marcado"}</p>
+              <p className="text-sm text-muted-foreground">{resumo.proximo ? "com " + (resumo.proximo.barbeiros?.nome ?? "barbeiro") : "Agende agora para manter sua rotina."}</p>
+            </div><Button asChild><a href="/agendar"><CalendarCheck/> {resumo.proximo ? "Novo horário" : "Agendar agora"}</a></Button>
+          </CardContent></Card>
+          <Card><CardContent className="p-5"><Scissors className="text-primary" size={18}/><p className="mt-2 text-xs text-muted-foreground">Cortes concluídos</p><p className="font-display text-3xl">{resumo.total}</p></CardContent></Card>
+          <Card><CardContent className="p-5"><Star className="text-primary" size={18}/><p className="mt-2 text-xs text-muted-foreground">Sua média de avaliações</p><p className="font-display text-3xl">{resumo.nota ? resumo.nota.toFixed(1) : "—"}</p></CardContent></Card>
+        </section>}
 
         <Card>
           <CardHeader>
