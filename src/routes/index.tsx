@@ -89,7 +89,7 @@ function Inicio() {
     },
   });
 
-  const servicosExibidos = servicos?.length ? servicos : CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({ id: `catalogo-${i}`, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir }));
+  const servicosExibidos = CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({ id: servicos?.find((s) => s.nome === nome)?.id ?? `catalogo-${i}`, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir }));
 
   const { data: equipe } = useQuery({
     queryKey: ["equipe-publica"],
