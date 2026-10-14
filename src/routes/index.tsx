@@ -43,7 +43,6 @@ const CATALOGO_FALLBACK = [
   ["limpeza facial","Limpeza e cuidado facial.",20,30,"Estética",false],
   ["limpeza nasal","Limpeza da região nasal.",10,15,"Estética",false],
   ["luzes","Iluminação dos fios.",150,150,"Coloração",true],
-  ["luzes","Iluminação dos fios.",150,150,"Coloração",false],
   ["pigmentação","Pigmentação para correção e definição.",20,25,"Barba",false],
   ["platinado","Transformação para efeito platinado.",150,150,"Coloração",false],
   ["Raspa cabeça na navalha","Raspagem da cabeça com navalha.",20,30,"Cabelo",false],
@@ -76,7 +75,7 @@ export const Route = createFileRoute("/")({
 function Inicio() {
   const { session } = useAuth();
 
-  const { data: servicos, isLoading: carregandoServicos } = useQuery({
+  const { data: servicos, isLoading: carregandoServicos, isError: erroServicos } = useQuery({
     queryKey: ["servicos-ativos"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -89,7 +88,19 @@ function Inicio() {
     },
   });
 
-  const servicosExibidos = CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({ id: servicos?.find((s) => s.nome === nome)?.id ?? `catalogo-${i}`, nome, descricao, duracao_minutos, preco, categoria, preco_a_partir }));
+  // O banco é a fonte de verdade sempre que houver serviços cadastrados.
+  // O catálogo local só evita uma seção vazia durante indisponibilidade ou configuração inicial.
+  const servicosExibidos = servicos?.length
+    ? servicos
+    : CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({
+        id: `catalogo-${i}`,
+        nome,
+        descricao,
+        duracao_minutos,
+        preco,
+        categoria,
+        preco_a_partir,
+      }));
 
   const { data: equipe } = useQuery({
     queryKey: ["equipe-publica"],
@@ -222,7 +233,7 @@ function Inicio() {
             </p>
           </div>
 
-          {carregandoServicos ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-2xl" />)}</div> : <BuscaServicos servicos={servicosExibidos} />}
+          {carregandoServicos ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-2xl" />)}</div> : <><BuscaServicos servicos={servicosExibidos} />{erroServicos && <p role="status" className="mt-4 text-xs text-muted-foreground">Exibindo o catálogo de referência porque não foi possível atualizar os serviços agora. Os valores devem ser confirmados com a equipe.</p>}</>}
         </section>
 
         <section className="border-y border-border/70 bg-card/30">
