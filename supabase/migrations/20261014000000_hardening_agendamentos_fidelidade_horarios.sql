@@ -103,8 +103,19 @@ begin
       raise exception 'Profissional não pode alterar os dados comerciais ou o horário da reserva';
     end if;
 
-    if new.status not in ('pendente', 'confirmado', 'concluido', 'cancelado', 'nao_compareceu') then
-      raise exception 'Status de agendamento inválido';
+    if old.status in ('concluido', 'cancelado', 'nao_compareceu')
+      and new.status is distinct from old.status then
+      raise exception 'Não é permitido reabrir um atendimento encerrado';
+    end if;
+
+    if old.status = 'confirmado'
+      and new.status not in ('confirmado', 'concluido', 'cancelado', 'nao_compareceu') then
+      raise exception 'Transição de status inválida';
+    end if;
+
+    if old.status = 'pendente'
+      and new.status not in ('pendente', 'confirmado', 'concluido', 'cancelado', 'nao_compareceu') then
+      raise exception 'Transição de status inválida';
     end if;
     return new;
   end if;
@@ -216,12 +227,12 @@ begin
       'corte so maquina 1 numeração'
     );
 
+    -- A trigger registrar_pontos_agendamento contabiliza atendimentos_concluídos.
+    -- Aqui só garantimos a linha para o ciclo de cortes, sem duplicar esse total.
     insert into public.fidelidade_clientes
       (cliente_id, cortes_realizados, premio_disponivel, atendimentos_concluidos)
-    values (new.cliente_id, 0, false, 1)
-    on conflict (cliente_id) do update
-      set atendimentos_concluidos = public.fidelidade_clientes.atendimentos_concluidos + 1,
-          atualizado_em = now();
+    values (new.cliente_id, 0, false, 0)
+    on conflict (cliente_id) do nothing;
 
     if eh_corte_simples and new.beneficio_fidelidade then
       update public.fidelidade_clientes
