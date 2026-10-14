@@ -136,7 +136,8 @@ function Agendar() {
         servico_id: servico.id,
         inicio: inicio.toISOString(),
         fim: fim.toISOString(),
-        preco: servico.preco,
+        // Mantém o valor gravado coerente com o benefício exibido no resumo.
+        preco: fidelidade?.premio_disponivel ? 0 : servico.preco,
         observacoes: observacoes ? textoSeguro(observacoes, 300) : null,
       });
       if (error) throw error;
@@ -196,6 +197,11 @@ function Agendar() {
           {passo === 0 &&
             <>
               <div className="relative"><Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={17}/><input value={buscaServico} onChange={e=>setBuscaServico(e.target.value)} placeholder="Buscar serviço..." className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-3 text-sm outline-none focus:border-primary"/></div>
+              {servicosFiltrados.length === 0 && (
+                <Card><CardContent className="p-6 text-center text-sm text-muted-foreground">
+                  {servicos?.length ? "Nenhum serviço corresponde à sua busca." : "Não há serviços ativos disponíveis no momento. Tente novamente mais tarde ou fale com a barbearia."}
+                </CardContent></Card>
+              )}
               {servicosFiltrados.map((s) => (
               <button
                 key={s.id}
@@ -222,8 +228,12 @@ function Agendar() {
               ))}
             </>}
 
-          {passo === 1 &&
-            (barbeiros ?? []).map((b) => (
+          {passo === 1 && (
+            (barbeiros ?? []).length === 0 ? (
+              <Card><CardContent className="p-6 text-center text-sm text-muted-foreground">
+                Não há profissionais disponíveis para agendamento no momento. Tente novamente mais tarde ou fale com a barbearia.
+              </CardContent></Card>
+            ) : (barbeiros ?? []).map((b) => (
               <button
                 key={b.id}
                 type="button"
@@ -250,7 +260,8 @@ function Agendar() {
                   )}
                 </span>
               </button>
-            ))}
+            ))
+          )}
 
           {passo === 2 && (
             <>
@@ -289,6 +300,10 @@ function Agendar() {
                     <Skeleton key={i} className="h-10" />
                   ))}
                 </div>
+              ) : slots === undefined ? (
+                <Card><CardContent className="p-6 text-center text-sm text-muted-foreground">
+                  Não foi possível carregar os horários. Verifique sua conexão e tente selecionar a data novamente.
+                </CardContent></Card>
               ) : (slots ?? []).length === 0 ? (
                 <Card>
                   <CardContent className="p-6 text-center text-sm text-muted-foreground">
