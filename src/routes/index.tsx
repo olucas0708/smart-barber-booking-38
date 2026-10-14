@@ -90,7 +90,7 @@ function Inicio() {
 
   // O banco é a fonte de verdade sempre que houver serviços cadastrados.
   // O catálogo local só evita uma seção vazia durante indisponibilidade ou configuração inicial.
-  const servicosExibidos = servicos?.length
+  const servicosExibidos = servicos !== undefined
     ? servicos
     : CATALOGO_FALLBACK.map(([nome, descricao, duracao_minutos, preco, categoria, preco_a_partir], i) => ({
         id: `catalogo-${i}`,
