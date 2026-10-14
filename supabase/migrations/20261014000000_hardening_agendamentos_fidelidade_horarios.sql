@@ -64,9 +64,13 @@ begin
     end if;
 
     if v_staff then
-      if new.barbeiro_id is distinct from public.meu_barbeiro_id() then
+      if public.meu_barbeiro_id() is null or new.barbeiro_id is distinct from public.meu_barbeiro_id() then
         raise exception 'Profissional só pode criar agendamento para a própria agenda';
       end if;
+      -- Profissionais também não podem inserir reservas já concluídas ou pagas.
+      new.status := 'confirmado';
+      new.pagamento_status := 'pagar_no_local';
+      new.pagamento_metodo := null;
       return new;
     end if;
 
