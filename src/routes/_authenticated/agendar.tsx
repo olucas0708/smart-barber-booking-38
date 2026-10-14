@@ -39,6 +39,17 @@ export const Route = createFileRoute("/_authenticated/agendar")({
 
 const PASSOS = ["Serviço", "Barbeiro", "Horário", "Confirmar"];
 
+// O benefício "10 cortes, o próximo grátis" vale apenas para cortes simples.
+// O banco valida novamente a elegibilidade e calcula o preço no servidor.
+function corteElegivelParaFidelidade(nome: string) {
+  return [
+    "corte",
+    "corte só máquina — 1 numeração",
+    "corte só máquina 1 numeração",
+    "corte so maquina 1 numeração",
+  ].includes(nome.trim().toLocaleLowerCase("pt-BR"));
+}
+
 function Agendar() {
   const { userId, perfil } = useAuth();
   const navigate = useNavigate();
@@ -136,8 +147,8 @@ function Agendar() {
         servico_id: servico.id,
         inicio: inicio.toISOString(),
         fim: fim.toISOString(),
-        // Mantém o valor gravado coerente com o benefício exibido no resumo.
-        preco: fidelidade?.premio_disponivel ? 0 : servico.preco,
+        // O banco calcula o preço oficial e aplica a fidelidade apenas a cortes elegíveis.
+        preco: servico.preco,
         observacoes: observacoes ? textoSeguro(observacoes, 300) : null,
       });
       if (error) throw error;
@@ -170,7 +181,7 @@ function Agendar() {
               <div className="rounded-full bg-primary p-2 text-primary-foreground"><Gift size={20} /></div>
               <div>
                 <p className="font-semibold">Seu próximo corte é GRÁTIS!</p>
-                <p className="text-xs text-muted-foreground">O benefício será aplicado automaticamente neste novo agendamento.</p>
+                <p className="text-xs text-muted-foreground">Selecione um corte simples elegível para usar seu benefício. O sistema confirma o desconto ao reservar.</p>
               </div>
             </CardContent>
           </Card>
@@ -358,7 +369,7 @@ function Agendar() {
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Valor</dt>
-                    <dd className="text-right font-semibold text-primary">{fidelidade?.premio_disponivel ? <><span className="mr-2 text-muted-foreground line-through">{servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</span> GRÁTIS</> : servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</dd>
+                    <dd className="text-right font-semibold text-primary">{fidelidade?.premio_disponivel && corteElegivelParaFidelidade(servico.nome) ? <><span className="mr-2 text-muted-foreground line-through">{servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</span> GRÁTIS</> : servico.preco_a_partir ? `A partir de: ${moeda(servico.preco)}` : moeda(servico.preco)}</dd>
                   </div>
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground">Pagamento</dt>
